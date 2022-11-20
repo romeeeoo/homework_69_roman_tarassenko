@@ -1,0 +1,42 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<h1>hi</h1>
+
+<script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI="
+        crossorigin="anonymous"></script>
+
+<input>
+
+<button type="button" class="btn btn-primary" id="add-btn">Add</button>
+<button type="button" class="btn btn-primary" id="subtract-btn">Add</button>
+
+<script>
+    $("#add-btn").click(function onClick() {
+        $.ajax({
+            url: 'http://localhost:8000/add/',
+            method: 'POST',
+            headers: {'X-CSRFToken': "{{ csrf_token }}"},
+            data: JSON.stringify({A: 2, B: 2}),
+            success: function (data, status) {
+                console.log(data);
+                console.log(status);
+            },
+            error: function (response) {
+                console.log(response)
+                console.log("не числа")
+            }
+        });
+    });
+
+</script>
+
+</body>
+</html>

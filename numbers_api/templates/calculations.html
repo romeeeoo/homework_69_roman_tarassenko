@@ -4,37 +4,74 @@
 <html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     <title>Title</title>
 </head>
 <body>
 
-<h1>hi</h1>
+<div class="modal fade" id="exampleModal" aria-labelledby="exampleModalLabel" aria-hidden="false">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Result</h5>
+      </div>
+      <div class="modal-body">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="container">
+    <div class="input-group mt-5 mb-3">
+        <span class="input-group-text" id="basic-addon1">First number</span>
+        <input type="text" class="form-control" id="A" aria-describedby="basic-addon1">
+    </div>
+     <div class="input-group mb-3">
+            <span class="input-group-text" id="basic-addon2">Second number</span>
+            <input type="text" class="form-control" id="B" aria-describedby="basic-addon2">
+        </div>
+    <a class="btn btn-primary" href="{% url "add"%}" role="button" id="add-btn" data-bs-toggle="modal"
+       data-bs-target="#exampleModal">add</a>
+    <a class="btn btn-primary" href="{% url "subtract"%}" role="button" id="subtract-btn" data-bs-toggle="modal"
+       data-bs-target="#exampleModal">subtract</a>
+    <a class="btn btn-primary" href="{% url "multiply"%}" role="button" id="multiply-btn" data-bs-toggle="modal"
+       data-bs-target="#exampleModal">multiply</a>
+    <a class="btn btn-primary" href="{% url "divide"%}" role="button" id="divide-btn" data-bs-toggle="modal"
+       data-bs-target="#exampleModal">divide</a>
+
+</div>
+
+
 
 <script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI="
         crossorigin="anonymous"></script>
 
-<input>
-
-<button type="button" class="btn btn-primary" id="add-btn">Add</button>
-<button type="button" class="btn btn-primary" id="subtract-btn">Add</button>
-
 <script>
-    $("#add-btn").click(function onClick() {
+    $(".btn").click(function onClick() {
         $.ajax({
-            url: 'http://localhost:8000/add/',
+            url: $(this).attr("href"),
             method: 'POST',
             headers: {'X-CSRFToken': "{{ csrf_token }}"},
-            data: JSON.stringify({A: 2, B: 2}),
-            success: function (data, status) {
-                console.log(data);
+            data: JSON.stringify({A: $("#A").val(), B: $("#B").val()}),
+            success: function (response, status) {
+                console.log(response);
                 console.log(status);
+                $(".modal-body").text(response.result);
+                $(".modal-header").css("background-color", "lightgreen")
             },
             error: function (response) {
-                console.log(response)
-                console.log("не числа")
+                $(".modal-body").text(response.responseJSON.error);
+                $(".modal-header").css("background-color", "red")
             }
         });
     });
+
 
 </script>
 

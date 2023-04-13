@@ -4,7 +4,7 @@ from numbers_api.views import CalculationsView, add_view, subtract_view, multipl
     divide_view
 
 urlpatterns = [
-    path('calc/', CalculationsView.as_view(), name="calculations"),
+    path('', CalculationsView.as_view(), name="calculations"),
     path('add/', add_view, name="add"),
     path('subtract/', subtract_view, name="subtract"),
     path('multiply/', multiply_view, name="multiply"),

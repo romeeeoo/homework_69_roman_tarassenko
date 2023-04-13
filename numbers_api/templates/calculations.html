@@ -36,15 +36,14 @@
             <span class="input-group-text" id="basic-addon2">Second number</span>
             <input type="text" class="form-control" id="B" aria-describedby="basic-addon2">
         </div>
-    <a class="btn btn-primary" href="{% url "add"%}" role="button" id="add-btn" data-bs-toggle="modal"
+    <a class="btn btn-primary btn-action" href="#" data-api-endpoint={% url 'add' %} role="button" id="add-btn" data-bs-toggle="modal"
        data-bs-target="#exampleModal">add</a>
-    <a class="btn btn-primary" href="{% url "subtract"%}" role="button" id="subtract-btn" data-bs-toggle="modal"
+    <a class="btn btn-primary btn-action" href="#" data-api-endpoint={% url 'subtract' %} role="button" id="subtract-btn" data-bs-toggle="modal"
        data-bs-target="#exampleModal">subtract</a>
-    <a class="btn btn-primary" href="{% url "multiply"%}" role="button" id="multiply-btn" data-bs-toggle="modal"
+    <a class="btn btn-primary btn-action" href="#" data-api-endpoint={% url 'multiply' %} role="button" id="multiply-btn" data-bs-toggle="modal"
        data-bs-target="#exampleModal">multiply</a>
-    <a class="btn btn-primary" href="{% url "divide"%}" role="button" id="divide-btn" data-bs-toggle="modal"
+    <a class="btn btn-primary btn-action" href="#" data-api-endpoint={% url 'divide' %} role="button" id="divide-btn" data-bs-toggle="modal"
        data-bs-target="#exampleModal">divide</a>
-
 </div>
 
 
@@ -53,9 +52,9 @@
         crossorigin="anonymous"></script>
 
 <script>
-    $(".btn").click(function onClick() {
+    $(".btn-action").click(function calculate() {
         $.ajax({
-            url: $(this).attr("href"),
+            url: $(this).data("api-endpoint"),
             method: 'POST',
             headers: {'X-CSRFToken': "{{ csrf_token }}"},
             data: JSON.stringify({A: $("#A").val(), B: $("#B").val()}),
